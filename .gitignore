@@ -1,2 +1,7 @@
 **/*.o
 **/*.a
+CMakeFiles
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+out
