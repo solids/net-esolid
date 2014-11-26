@@ -148,7 +148,7 @@ K_RATPOLY :: K_RATPOLY(const K_RATPOLY& P)
   for (i = 0; i < num_coeffs; i++)
     coeffs[i] = P.coeffs[i];
 
-  if (Sturm_seq = P.Sturm_seq)
+  if ((Sturm_seq = P.Sturm_seq))
     Sturm_seq->ref_count++;
 
   ref_count = 0;
@@ -187,7 +187,7 @@ K_RATPOLY& K_RATPOLY :: operator =(const K_RATPOLY& P)
     for (i = 0; i < num_coeffs; i++)
       coeffs[i] = P.coeffs[i];
 
-    if (Sturm_seq = P.Sturm_seq)
+    if ((Sturm_seq = P.Sturm_seq))
       Sturm_seq->ref_count++;
   }
 
@@ -1063,23 +1063,27 @@ int K_RATPOLY :: eq_upto_const(const K_RATPOLY& P) const
 
   e = 1;
 
-  if (num_vars != P.num_vars)
+  if (num_vars != P.num_vars) {
     e = 0;
+  }
   else  //  if (num_vars == P.num_vars)
   {
     i = 0;
 
-    while (e && i < num_vars)
-      if (deg[i] != P.deg[i])
+    while (e && i < num_vars) {
+      if (deg[i] != P.deg[i]) {
         e = 0;
-      else  //  if (deg[i] == P.deg[i])
+      }
+      else { //  if (deg[i] == P.deg[i])
         i++;
+      }
+    }
 
-    if (e)
-      if (num_coeffs != P.num_coeffs)
+    if (e) {
+      if ((num_coeffs != P.num_coeffs)) {
         e = 0;
-      else  //  if (num_coeffs == P.num_coeffs)
-      {
+      }
+      else { //  if (num_coeffs == P.num_coeffs)
         bigrational lc, lcp;
 
         for (i = 0; i < num_coeffs && !sgn(coeffs[i]); i++)
@@ -1091,18 +1095,22 @@ int K_RATPOLY :: eq_upto_const(const K_RATPOLY& P) const
 
           lc = coeffs[i];
 
-          if (!sgn(lcp = P.coeffs[i]))
+          if (!sgn(lcp = P.coeffs[i])) {
           //  *this is NOT a zero polynomial and P is.
             e = 0;
+          }
           else
           {
             i++;
 
-            while (e && i < num_coeffs)
-              if (coeffs[i] * lcp != lc * P.coeffs[i])
+            while (e && i < num_coeffs) {
+              if (coeffs[i] * lcp != lc * P.coeffs[i]) {
                 e = 0;
-              else  //  if (coeffs[i] * lcp == lc * P.coeffs[i])
+              }
+              else { //  if (coeffs[i] * lcp == lc * P.coeffs[i])
                 i++;
+              }
+            }
           }
         }
         else  //  if (i == num_coeffs)
@@ -1111,14 +1119,18 @@ int K_RATPOLY :: eq_upto_const(const K_RATPOLY& P) const
 
           i--;
 
-          while (e && i >= 0)
-            if (sgn(P.coeffs[i]))
+          while (e && i >= 0) {
+            if (sgn(P.coeffs[i])) {
             //  * this is a zero polynomial and P is not.
               e = 0;
-            else  //  if (!sgn(P.coeffs[i]))
+            }
+            else { //  if (!sgn(P.coeffs[i]))
               i--;
+            }
+          }
         }
       }
+    }
   }
 
   return e;
@@ -1281,7 +1293,7 @@ int K_RATPOLY :: sgn_at(const bigrational& b) const
 
   int fs, es, s;
 
-  if (fs = fp_sgn_at(b))
+  if ((fs = fp_sgn_at(b)))
     s = fs;
   else  //  if (!fs)
   {
@@ -2041,14 +2053,16 @@ long K_RATPOLY :: num_Sturm_seq_perm(const bigrational& b) const
     {
       curr_sgn = curr->sgn_at(b);
 
-      if (curr_sgn > 0  && prev_sgn > 0
+      if (((curr_sgn > 0) && (prev_sgn > 0))
           ||
-          curr_sgn == 0 && prev_sgn > 0
+          ((curr_sgn == 0) && (prev_sgn > 0))
           ||
-          curr_sgn < 0  && prev_sgn < 0)
+          ((curr_sgn < 0)  && (prev_sgn < 0))) {
         count++;
-      else  //  if (curr_sgn * prev_sgn < 0)
+      }
+      else { //  if (curr_sgn * prev_sgn < 0)
         prev_sgn = curr_sgn ? curr_sgn : 1;  //  prev_sgn != 0
+      }
 
       curr = curr->Sturm_seq;
     }
@@ -2150,8 +2164,7 @@ bigrational K_RATPOLY :: Sylvester1(const K_RATPOLY& P) const
   unsigned long n;
   bigrational   r;
 
-  if (n = deg[0] + P.deg[0])
-  {
+  if ((n = deg[0] + P.deg[0])) {
     bigrational_matrix S(n, n);
 
     for (i = 0; i < P.deg[0]; i++)
@@ -2164,12 +2177,14 @@ bigrational K_RATPOLY :: Sylvester1(const K_RATPOLY& P) const
 
     r = det(S);
   }
-  else if (sgn(coeffs[0]) || sgn(P.coeffs[0]))
+  else if (sgn(coeffs[0]) || sgn(P.coeffs[0])) {
   //  if *this or P is a non-zero constant polynomial
     r = 1;
-  else
+  }
+  else {
   //  if both *this and P are zero polynomials
     r = 0;
+  }
 
   return r;
 }

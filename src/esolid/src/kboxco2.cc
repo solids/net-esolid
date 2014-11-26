@@ -204,13 +204,13 @@ int K_BOXCO2 :: overlap(const K_BOXCO2& b) const
   int           o;
   
   for (o = 1, i = 0; o && i < 2; i++)
-    if (low[i] > b.high[i]
+    if ((low[i] > b.high[i])
         ||
-        high[i] < b.low[i]
+        (high[i] < b.low[i])
         ||
-        low[i] == b.high[i] && (low_open[i] || b.high_open[i])
+        (low[i] == b.high[i]) && (low_open[i] || b.high_open[i])
         ||
-        high[i] == b.low[i] && (high_open[i] || b.low_open[i]))
+        (high[i] == b.low[i]) && (high_open[i] || b.low_open[i]))
       o = 0;
   
   return o;

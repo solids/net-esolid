@@ -39,7 +39,7 @@ int round_nearest()
   fpu_control_t w;
 
   _FPU_GETCW(w);
-  w = w & 0xf3ff | _FPU_RC_NEAREST;
+  w = (w & 0xf3ff) | _FPU_RC_NEAREST;
   _FPU_SETCW(w);
 
 //#endif
@@ -68,7 +68,7 @@ int round_down()
   fpu_control_t w;
 
   _FPU_GETCW(w);
-  w = w & 0xf3ff | _FPU_RC_DOWN;
+  w = (w & 0xf3ff) | _FPU_RC_DOWN;
   _FPU_SETCW(w);
 
 //#endif
@@ -97,7 +97,7 @@ int round_up()
   fpu_control_t w;
 
   _FPU_GETCW(w);
-  w = w & 0xf3ff | _FPU_RC_UP;
+  w = (w & 0xf3ff) | _FPU_RC_UP;
   _FPU_SETCW(w);
 
 //#endif
@@ -126,7 +126,7 @@ int round_zero()
   fpu_control_t w;
 
   _FPU_GETCW(w);
-  w = w & 0xf3ff | _FPU_RC_ZERO;
+  w = (w & 0xf3ff) | _FPU_RC_ZERO;
   _FPU_SETCW(w);
 
 //#endif
@@ -169,7 +169,7 @@ int horner_with_err(const double* const poly,
     f = finite(out_val = poly[0]);
 
   for (i = 1; f && i <= deg; i++)
-    if (f = finite(out_val *= in_val))
+    if ((f = finite(out_val *= in_val)))
       f = finite(out_val += poly[i]);
 
   //  2. Compute a bound on error.  We round towards +infinity
@@ -190,7 +190,7 @@ int horner_with_err(const double* const poly,
       f = finite(out_err = fabs(poly[0]));
 
   for (i = 1; f && i <= deg; i++)
-    if (f = finite(out_err *= abs_in_val))
+    if ((f = finite(out_err *= abs_in_val)))
       f = finite(out_err += fabs(poly[i]));
 
   //  2-3. Compute the maximum relative error for any single term.

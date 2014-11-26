@@ -19,7 +19,7 @@ K_PARTITION :: K_PARTITION(K_PATCH* const p)
 {
   unsigned long i;
   
-  if (from = p)
+  if ((from = p))
   {
     from->ref_count++;
     is_head = from->is_head;
@@ -71,31 +71,33 @@ K_PARTITION :: K_PARTITION(const K_PARTITION& p)
 {
   unsigned long i;
   
-  if (from = p.from)
+  if ((from = p.from)) {
     from->ref_count++;
+  }
   
   is_head = p.is_head;
   
-  if ((num_trim_curves = p.num_trim_curves) > 0)
-  {
+  if ((num_trim_curves = p.num_trim_curves) > 0) {
     trim_curves    = new K_CURVE* [num_trim_curves];
     adj_curves     = new long [num_trim_curves];
     adj_surfs      = new K_SURF* [num_trim_curves];
     adj_partitions = new K_PARTITION* [num_trim_curves];
     rev_curves     = new int [num_trim_curves];
     
-    for (i = 0; i < num_trim_curves; i++)
-    {
-      if (trim_curves[i] = p.trim_curves[i])
+    for (i = 0; i < num_trim_curves; i++) {
+      if ((trim_curves[i] = p.trim_curves[i])) {
         trim_curves[i]->ref_count++;
+      }
       
       adj_curves[i] = p.adj_curves[i];
       
-      if (adj_surfs[i] = p.adj_surfs[i])
+      if ((adj_surfs[i] = p.adj_surfs[i])) {
         adj_surfs[i]->ref_count++;
+      }
       
-      if (adj_partitions[i] = p.adj_partitions[i])
+      if ((adj_partitions[i] = p.adj_partitions[i])) {
         adj_partitions[i]->ref_count++;
+      }
       
       rev_curves[i] = p.rev_curves[i];
     }
@@ -144,8 +146,9 @@ K_PARTITION& K_PARTITION :: operator =(const K_PARTITION& p)
       delete [] rev_curves;
     }
     
-    if (from = p.from)
+    if ((from = p.from)) {
       from->ref_count++;
+    }
     
     is_head = p.is_head;
     
@@ -157,18 +160,20 @@ K_PARTITION& K_PARTITION :: operator =(const K_PARTITION& p)
       adj_partitions = new K_PARTITION* [num_trim_curves];
       rev_curves     = new int [num_trim_curves];
       
-      for (i = 0; i < num_trim_curves; i++)
-      {
-        if (trim_curves[i] = p.trim_curves[i])
+      for (i = 0; i < num_trim_curves; i++) {
+        if ((trim_curves[i] = p.trim_curves[i])) {
           trim_curves[i]->ref_count++;
+        }
         
         adj_curves[i] = p.adj_curves[i];
         
-        if (adj_surfs[i] = p.adj_surfs[i])
+        if ((adj_surfs[i] = p.adj_surfs[i])) {
           adj_surfs[i]->ref_count++;
+        }
         
-        if (adj_partitions[i] = p.adj_partitions[i])
+        if ((adj_partitions[i] = p.adj_partitions[i])) {
           adj_partitions[i]->ref_count++;
+        }
         
         rev_curves[i] = p.rev_curves[i];
       }
@@ -520,8 +525,8 @@ unsigned long gen_adjacency(K_PARTITION** const partitions,
   {
     f = partitions[i]->ID;
     
-    for (j = 0; j < partitions[i]->num_trim_curves; j++)
-      if (a = partitions[i]->adj_partitions[j])
+    for (j = 0; j < partitions[i]->num_trim_curves; j++) {
+      if ((a = partitions[i]->adj_partitions[j]))
       {
         t = a->ID;
         G->add_edge(f, t, 1);
@@ -553,6 +558,7 @@ unsigned long gen_adjacency(K_PARTITION** const partitions,
           G->add_edge(f, t, 0);
         }
       }
+    }
   }
   
   delete [] V;
@@ -580,15 +586,16 @@ K_POINT2D K_PARTITION :: get_pt_in() const
   low_t  = b.low[1];
   high_t = b.high[1];
   
-  for (i = 1; i < num_trim_curves; i++)
-  {
+  for (i = 1; i < num_trim_curves; i++) {
     b = trim_curves[i]->bbox();
     
-    if (b.low[1] < low_t)
+    if (b.low[1] < low_t) {
       low_t = b.low[1];
+    }
     
-    if (b.high[1] > high_t)
+    if (b.high[1] > high_t) {
       high_t = b.high[1];
+    }
   }
   
   cut_t       = low_t + 3 * (high_t - low_t) / 7;
@@ -596,22 +603,20 @@ K_POINT2D K_PARTITION :: get_pt_in() const
   int_pts     = new K_POINT2D* [MAX_NUM_INT_PTS];
   num_int_pts = 0;
   
-  for (i = 0; i < num_trim_curves; i++)
-  {
-    if (num_int_pts_proto =
-        trim_curves[i]->find_intersections(poly_cut, int_pts_proto, 1) > 0)
-    {
-      for (j = 0; j < num_int_pts_proto; j++)
-      {
+  for (i = 0; i < num_trim_curves; i++) {
+    if ((num_int_pts_proto = trim_curves[i]->find_intersections(poly_cut, int_pts_proto, 1) > 0)) {
+      for (j = 0; j < num_int_pts_proto; j++) {
         assert(num_int_pts < MAX_NUM_INT_PTS);
         int_pts[num_int_pts] = int_pts_proto[j];
         int_pts[num_int_pts]->ref_count++;
         num_int_pts++;
       }
       
-      for (j = 0; j < num_int_pts_proto; j++)
-        if (!--int_pts_proto[j]->ref_count)
+      for (j = 0; j < num_int_pts_proto; j++) {
+        if (!--int_pts_proto[j]->ref_count) {
           delete int_pts_proto[j];
+        }
+      }
       
       delete [] int_pts_proto;
     }
@@ -622,9 +627,11 @@ K_POINT2D K_PARTITION :: get_pt_in() const
   sort_s(int_pts, num_int_pts);
   v_s = (int_pts[0]->get_high_s() + int_pts[1]->get_low_s()) / 2;
   
-  for (i = 0; i < num_int_pts; i++)
-    if (!--int_pts[i]->ref_count)
+  for (i = 0; i < num_int_pts; i++) {
+    if (!--int_pts[i]->ref_count) {
       delete int_pts[i];
+    }
+  }
   
   delete [] int_pts;
   

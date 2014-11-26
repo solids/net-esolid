@@ -228,7 +228,7 @@ ROOT1 :: ROOT1(const K_RATPOLY& P,
 
 ROOT1 :: ROOT1(const ROOT1& r)
 {
-  if (poly = r.poly)
+  if ((poly = r.poly))
     poly->ref_count++;
   
   low  = r.low;
@@ -257,7 +257,7 @@ ROOT1& ROOT1 :: operator =(const ROOT1& r)
     if (poly && !--poly->ref_count)
       delete poly;
     
-    if (poly = r.poly)
+    if ((poly = r.poly))
       poly->ref_count++;
     
     low  = r.low;
@@ -306,26 +306,32 @@ int ROOT1 :: cut(const bigrational& b)
 {
   if (b > low && b < high)
   {
-    if (sig_low > 0)
-      if (poly->sgn_at(b) >= 0)
+    if (sig_low > 0) {
+      if (poly->sgn_at(b) >= 0) {
       //  b is of the same sign as low, i.e., b is below the root,
       //  or b is the root.
       //  Assign b to low.
         low = b;
-      else  //  if (poly->sgn_at(b) < 0)
+      }
+      else { //  if (poly->sgn_at(b) < 0)
       //  b is of the opposite sign to low, i.e., b is above the root.
       //  Assign b to high.
         high = b;
-    else if (sig_low < 0)
-      if (poly->sgn_at(b) <= 0)
+      }
+    }
+    else if (sig_low < 0) {
+      if (poly->sgn_at(b) <= 0) {
       //  b is of the same sign as low, i.e., b is below the root,
       //  or b is the root.
       //  Assign b to low.
         low = b;
-      else  //  if (poly->sgn_at(b) > 0)
+      }
+      else { //  if (poly->sgn_at(b) > 0)
       //  b is of the opposite sign to low, i.e., b is above the root.
       //  Assign b to high.
         high = b;
+      }
+    }
     else  //  if (sig_low == 0)
     {
       unsigned long num_perm_b;
@@ -346,11 +352,14 @@ int ROOT1 :: cut(const bigrational& b)
       }
     }
     
-    if (ok_float)
-      if (float_est > low && float_est < high)  //  comparison in bigrational
+    if (ok_float) {
+      if ((float_est > low) && (float_est < high)) { //  comparison in bigrational
         ok_float = 1;
-      else  //  if (float_est <= low || float_est >= high)
+      }
+      else { //  if (float_est <= low || float_est >= high)
         ok_float = 0;
+      }
+    }
   }
   
   return 0;
@@ -406,11 +415,14 @@ int ROOT1 :: halve()
     }
   }
   
-  if (ok_float)
-    if (float_est > low && float_est < high)  //  comparison in bigrational
+  if (ok_float) {
+    if ((float_est > low) && (float_est < high)) { //  comparison in bigrational
       ok_float = 1;
-    else  //  if (float_est <= low || float_est >= high)
+    }
+    else { //  if (float_est <= low || float_est >= high)
       ok_float = 0;
+    }
+  }
   
   return 0;
 }
@@ -451,13 +463,15 @@ int ROOT1 :: reduce(const unsigned long num_bits)
         
         sgn_l = poly->sgn_at(l);
         
-        if (sig_low < 0 && sgn_l <= 0 || sig_low > 0 && sgn_l >= 0)
+        if ((sig_low < 0 && sgn_l <= 0) || (sig_low > 0 && sgn_l >= 0)) {
         //  l is of the same sign as low, i.e., l is below the root,
         //  or l is the root.
         //  Assign l to low.
           low = l;
-        else
+        }
+        else {
           reduced = 0;
+        }
       }
       
       //  Do the following even if reduced has been set to be 0
@@ -469,16 +483,19 @@ int ROOT1 :: reduce(const unsigned long num_bits)
         
         sgn_h = poly->sgn_at(h);
         
-        if (sig_low < 0 && sgn_h > 0 || sig_low > 0 && sgn_h < 0)
+        if ((sig_low < 0 && sgn_h > 0) || (sig_low > 0 && sgn_h < 0)) {
         //  h is of the opposite sign to low, i.e., h is above the root.
         //  Assign h to high.
           high = h;
-        else if (!sgn_h)
+        }
+        else if (!sgn_h) {
         //  h is the root.
         //  Assign h to low.
           low = h;
-        else
+        }
+        else {
           reduced = 0;
+        }
       }
     }
     else  //  sig_low == 0
@@ -492,16 +509,18 @@ int ROOT1 :: reduce(const unsigned long num_bits)
         l          = low;
         num_perm_l = num_perm_low;
       }
-      else  //  if (l >= low)
+      else { //  if (l >= low)
         num_perm_l = poly->num_Sturm_seq_perm(l);
+      }
       
       if (h > high)
       {
         h          = high;
         num_perm_h = num_perm_high;
       }
-      else  //  if (h <= high)
+      else { //  if (h <= high)
         num_perm_h = poly->num_Sturm_seq_perm(h);
+      }
       
       //  See if all the roots are between (refined) l and h.
       
@@ -512,8 +531,9 @@ int ROOT1 :: reduce(const unsigned long num_bits)
         num_perm_low  = num_perm_l;
         num_perm_high = num_perm_h;
       }
-      else  //  if (num_roots != num_prem_h - num_perm_l)
+      else { //  if (num_roots != num_prem_h - num_perm_l)
         reduced = 0;
+      }
     }
   
   return reduced;
@@ -545,12 +565,14 @@ int ROOT1 :: contract(const bigrational& tol)
         num_bits++;
       }
       
-      while (num_bits > 0 && !reduce(num_bits))
+      while (num_bits > 0 && !reduce(num_bits)) {
         num_bits -= 3;
+      }
     }
     
-    while (high - low > tol)
-      halve();
+      while (high - low > tol) {
+        halve();
+      }
   }
   
   return 0;
