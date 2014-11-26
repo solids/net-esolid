@@ -10,7 +10,7 @@ ESOLID_dir = .
 ####  1-1. Hardware and perating system
 
 #####  Pick your architecture.
-#CFLAGS = -D_Linux_i386_
+CFLAGS = -D_Linux_i386_
 #CFLAGS = -D_EXPERIMENT -D_Linux_i386_
 #CFLAGS = -D_SunOS_
 #CFLAGS = -D_IRIX_
