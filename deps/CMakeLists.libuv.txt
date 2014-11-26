@@ -1,22 +1,14 @@
-# https://c9.io/creationix/moonslice-luv/workspace/luv/libuv/CMakeLists.txt
+# originally from https://c9.io/creationix/moonslice-luv/workspace/luv/libuv/CMakeLists.txt
 
 include_directories(deps/libuv/src deps/libuv/include deps/libuv/include/uv-private)
 
 set(LIBUV_INCLUDE_DIR deps/libuv/include)
 
-
 # Common source files
 set(LIBUV_COMMON_SOURCE_FILES
-  deps/libuv/include/uv.h
-  deps/libuv/include/tree.h
-  deps/libuv/include/uv-errno.h
-  deps/libuv/include/uv-version.h
   deps/libuv/src/fs-poll.c
-  deps/libuv/src/heap-inl.h
   deps/libuv/src/inet.c
-  deps/libuv/src/queue.h
   deps/libuv/src/uv-common.c
-  deps/libuv/src/uv-common.h
   deps/libuv/src/version.c)
 
 if(MSVC)
@@ -26,9 +18,7 @@ if(MSVC)
 
   # Windows source files
   set(LIBUV_SOURCE_FILES ${LIBUV_COMMON_SOURCE_FILES}
-    deps/libuv/include/uv-win.h
     deps/libuv/src/win/async.c
-    deps/libuv/src/win/atomicops-inl.h
     deps/libuv/src/win/core.c
     deps/libuv/src/win/dl.c
     deps/libuv/src/win/error.c
@@ -36,8 +26,6 @@ if(MSVC)
     deps/libuv/src/win/fs-event.c
     deps/libuv/src/win/getaddrinfo.c
     deps/libuv/src/win/handle.c
-    deps/libuv/src/win/handle-inl.h
-    deps/libuv/src/win/internal.h
     deps/libuv/src/win/loop-watcher.c
     deps/libuv/src/win/pipe.c
     deps/libuv/src/win/thread.c
@@ -45,10 +33,8 @@ if(MSVC)
     deps/libuv/src/win/process.c
     deps/libuv/src/win/process-stdio.c
     deps/libuv/src/win/req.c
-    deps/libuv/src/win/req-inl.h
     deps/libuv/src/win/signal.c
     deps/libuv/src/win/stream.c
-    deps/libuv/src/win/stream-inl.h
     deps/libuv/src/win/tcp.c
     deps/libuv/src/win/tty.c
     deps/libuv/src/win/threadpool.c
@@ -56,9 +42,7 @@ if(MSVC)
     deps/libuv/src/win/udp.c
     deps/libuv/src/win/util.c
     deps/libuv/src/win/winapi.c
-    deps/libuv/src/win/winapi.h
-    deps/libuv/src/win/winsock.c
-    deps/libuv/src/win/winsock.h)
+    deps/libuv/src/win/winsock.c)
 
 else()
   add_definitions(-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE)
@@ -66,24 +50,15 @@ else()
 
   # Posix source files
   set(LIBUV_POSIX_SOURCE_FILES
-#      deps/libuv/src/unix/aix.c
-#      deps/libuv/src/unix/android-ifaddrs.c
       deps/libuv/src/unix/async.c
       deps/libuv/src/unix/core.c
       deps/libuv/src/unix/dl.c
-#      deps/libuv/src/unix/freebsd.c
       deps/libuv/src/unix/fs.c
       deps/libuv/src/unix/fsevents.c
       deps/libuv/src/unix/getaddrinfo.c
       deps/libuv/src/unix/getnameinfo.c
-      deps/libuv/src/unix/kqueue.c
-#      deps/libuv/src/unix/linux-core.c
-#      deps/libuv/src/unix/linux-inotify.c
-#      deps/libuv/src/unix/linux-syscalls.c
       deps/libuv/src/unix/loop-watcher.c
       deps/libuv/src/unix/loop.c
-#      deps/libuv/src/unix/netbsd.c
-#      deps/libuv/src/unix/openbsd.c
       deps/libuv/src/unix/pipe.c
       deps/libuv/src/unix/poll.c
       deps/libuv/src/unix/process.c
@@ -91,7 +66,6 @@ else()
       deps/libuv/src/unix/pthread-fixes.c
       deps/libuv/src/unix/signal.c
       deps/libuv/src/unix/stream.c
-#      deps/libuv/src/unix/sunos.c
       deps/libuv/src/unix/tcp.c
       deps/libuv/src/unix/thread.c
       deps/libuv/src/unix/timer.c
@@ -110,8 +84,6 @@ else()
       deps/libuv/src/unix/darwin.c
       deps/libuv/src/unix/fsevents.c
       deps/libuv/src/unix/darwin-proctitle.c
-
-
       deps/libuv/src/unix/kqueue.c)
 
 
@@ -135,7 +107,6 @@ else()
       deps/libuv/src/unix/linux-core.c
       deps/libuv/src/unix/linux-inotify.c
       deps/libuv/src/unix/linux-syscalls.c
-      deps/libuv/src/unix/linux-syscalls.h
       deps/libuv/src/unix/pthread-fixes.c)
   #else()
   #  message(FATAL_ERROR
@@ -143,6 +114,12 @@ else()
   endif()
 
   # TODO: Solaris, FreeBSD and others; see uv.gyp
+  #      deps/libuv/src/unix/netbsd.c
+  #      deps/libuv/src/unix/openbsd.c
+  #      deps/libuv/src/unix/sunos.c
+  #      deps/libuv/src/unix/freebsd.c
+  #      deps/libuv/src/unix/aix.c
+  #      deps/libuv/src/unix/android-ifaddrs.c
 
 endif()
 
