@@ -8,7 +8,7 @@ bigint_matrix :: bigint_matrix(const unsigned long r, const unsigned long c)
 {
   unsigned long n;
   
-  if (n = num_row * num_col)
+  if ((n = num_row * num_col))
     rep = new bigint [n];
   else
     rep = 0;
@@ -21,7 +21,7 @@ bigint_matrix :: bigint_matrix(const unsigned long r, const unsigned long c,
   unsigned long i, j;
   unsigned long n;
   
-  if (n = num_row * num_col)
+  if ((n = num_row * num_col))
   {
     rep = new bigint [n];
     
@@ -39,7 +39,7 @@ bigint_matrix :: bigint_matrix(const bigint_matrix& X)
   unsigned long i, j;
   unsigned long n;
   
-  if (n = num_row * num_col)
+  if ((n = num_row * num_col))
   {
     rep = new bigint [n];
     
@@ -66,7 +66,7 @@ bigint_matrix& bigint_matrix :: operator =(const bigint_matrix& X)
       num_row = X.num_row;
       num_col = X.num_col;
       
-      if (n = num_row * num_col)
+      if ((n = num_row * num_col))
         rep = new bigint [n];
       else
         rep = 0;

@@ -522,7 +522,7 @@ ostream& operator <<(ostream& o, const bigint& x)
 {
   char* s;
   
-  if (s = mpz_get_str(NULL, 10, x.rep))
+  if ((s = mpz_get_str(NULL, 10, x.rep)))
   {
     o << s;
     
