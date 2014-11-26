@@ -40,7 +40,7 @@ AR = ar -ru
 ######    that are not needed for relocation.
 ######  "strip -g" strips debugging symbols only.
 #STRIP = strip --strip-unneeded
-STRIP = strip -g --strip-unneeded
+#STRIP = strip -g --strip-unneeded
 ######  For debugging, do not strip, so use the "echo" (dummy) definition:
 #STRIP = echo
 
