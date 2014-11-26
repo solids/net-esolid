@@ -10,7 +10,7 @@ ESOLID_dir = .
 ####  1-1. Hardware and perating system
 
 #####  Pick your architecture.
-CFLAGS = -D_Linux_i386_
+#CFLAGS = -D_Linux_i386_
 #CFLAGS = -D_EXPERIMENT -D_Linux_i386_
 #CFLAGS = -D_SunOS_
 #CFLAGS = -D_IRIX_
@@ -41,7 +41,7 @@ AR = ar -ru
 ######  "strip -g" strips debugging symbols only.
 #STRIP = strip --strip-unneeded
 STRIP = strip -g --strip-unneeded
-######  For debugging, do not strip, so use the "echo" (dummy) definition: 
+######  For debugging, do not strip, so use the "echo" (dummy) definition:
 #STRIP = echo
 
 
