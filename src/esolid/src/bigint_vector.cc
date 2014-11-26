@@ -55,7 +55,7 @@ bigint_vector& bigint_vector :: operator =(const bigint_vector& X)
       if (rep)
         delete [] rep;
       
-      if (dim = X.dim)
+      if ((dim = X.dim))
         rep = new bigint [dim];
       else
         rep = 0;

@@ -73,7 +73,7 @@ bigrational_vector :: operator =(const bigrational_vector& X)
       if (rep)
         delete [] rep;
       
-      if (dim = X.dim)
+      if ((dim = X.dim))
         rep = new bigrational [dim];
       else
         rep = 0;

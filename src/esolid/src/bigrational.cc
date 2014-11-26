@@ -416,7 +416,7 @@ ostream& operator <<(ostream& o, const bigrational& x)
 {
   char* s;
   
-  if (s = mpq_get_str(NULL, 10, x.rep))
+  if ((s = mpq_get_str(NULL, 10, x.rep)))
   {
     o << s;
     delete [] s;

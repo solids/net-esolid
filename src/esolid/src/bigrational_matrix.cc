@@ -9,7 +9,7 @@ bigrational_matrix :: bigrational_matrix(const unsigned long r,
 {
   unsigned long n;
   
-  if (n = num_row * num_col)
+  if ((n = num_row * num_col))
     rep = new bigrational [n];
   else
     rep = 0;
@@ -23,7 +23,7 @@ bigrational_matrix :: bigrational_matrix(const unsigned long r,
   unsigned long i, j;
   unsigned long n;
   
-  if (n = num_row * num_col)
+  if ((n = num_row * num_col))
   {
     rep = new bigrational [n];
     
@@ -41,7 +41,7 @@ bigrational_matrix :: bigrational_matrix(const bigrational_matrix& X)
   unsigned long i, j;
   unsigned long n;
   
-  if (n = num_row * num_col)
+  if ((n = num_row * num_col))
   {
     rep = new bigrational [n];
     
@@ -87,7 +87,7 @@ bigrational_matrix :: operator =(const bigrational_matrix& X)
       num_row = X.num_row;
       num_col = X.num_col;
       
-      if (n = num_row * num_col)
+      if ((n = num_row * num_col))
         rep = new bigrational [n];
       else
         rep = 0;
