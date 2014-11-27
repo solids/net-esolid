@@ -40,6 +40,12 @@ int get_param_plane(const bigrational_vector&,
                     K_RATPOLY*&,
                     K_RATPOLY*&);
 
+int planarize(const bigrational_vector inp_pts[], bigrational_vector pts[],
+              const unsigned long      num_pts);
+
+K_SOLID gen_box(const bigrational_vector pts[], const unsigned long num_pts);
+
+
 K_SOLID read_box(istream&, const bigrational& = 0);
 K_SOLID read_BRLCAD_box(istream&, const bigrational& = 0);
 
