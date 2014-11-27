@@ -1503,7 +1503,7 @@ int K_SURF :: Bezier_output(ostream& out_fs,
   W_Bern = W_sub.conv_to_Bernstein(max_deg_s, max_deg_t);
   
   //  Dump max. degrees in s and t.
-  
+
   out_fs << max_deg_s << "  " << max_deg_t << endl << flush;
   
   //  Dump control points.
@@ -1517,10 +1517,14 @@ int K_SURF :: Bezier_output(ostream& out_fs,
       p[1] = j;
       
       out_fs <<
-        X_Bern.get_coeff(p).as_double() << "  " <<
-        Y_Bern.get_coeff(p).as_double() << "  " <<
-        Z_Bern.get_coeff(p).as_double() << "  " <<
-        W_Bern.get_coeff(p).as_double() << "  " <<
+        // X_Bern.get_coeff(p).as_double() << "  " <<
+        // Y_Bern.get_coeff(p).as_double() << "  " <<
+        // Z_Bern.get_coeff(p).as_double() << "  " <<
+        // W_Bern.get_coeff(p).as_double() << "  " <<
+        X_Bern.get_coeff(p).as_string() << "  " <<
+        Y_Bern.get_coeff(p).as_string() << "  " <<
+        Z_Bern.get_coeff(p).as_string() << "  " <<
+        W_Bern.get_coeff(p).as_string() << "  " <<
         endl << flush;
     }
   }

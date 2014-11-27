@@ -88,6 +88,15 @@ unsigned long bigrational :: len() const
   return l_n + l_d;
 }
 
+std::string bigrational :: as_string() const
+{
+  char *tmp = mpq_get_str(NULL, 10, rep);
+  std::string str(tmp);
+
+  free(tmp); //, strlen(tmp) + 1);
+  return str;
+}
+
 double bigrational :: as_double() const
 {
   return mpq_get_d(rep);

@@ -77,6 +77,7 @@ public:
   unsigned long len() const;
   
   double as_double() const;
+  std::string as_string() const;
   
   int    fits_bigint() const;
   bigint as_bigint() const;
