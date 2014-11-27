@@ -42,7 +42,7 @@ AR = ar -ru
 #STRIP = strip --strip-unneeded
 #STRIP = strip -g --strip-unneeded
 ######  For debugging, do not strip, so use the "echo" (dummy) definition:
-#STRIP = echo
+STRIP = echo
 
 
 ###  3. Header files and library locations
@@ -56,7 +56,8 @@ LFLAGS_gmp = -lgmp
 
 #IFLAGS_lapack = -I/usr/local/include
 #LFLAGS_lapack = -L/usr/local/lib -lclapack -lcblas -lF77
-LFLAGS_lapack = -lclapack -lcblas -lF77
+LFLAGS_lapack = -lclapack -lcblas
+#LFLAGS_lapack = -lclapack -lcblas -lF77
 
 ###  4. Making
 
