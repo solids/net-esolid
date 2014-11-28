@@ -21,13 +21,12 @@ include_directories(
   src/esolid/include
 )
 
+# esolid
 add_definitions(-DLITTLE_ENDIAN_DOUBLE)
 add_definitions(-D_Linux_i386_)
 
-add_executable(
-  net-esolid
-  src/net-esolid.cc
-
+add_library(
+  esolid
   src/esolid/src/VDM.cc
   src/esolid/src/bigint.cc
   src/esolid/src/bigint_matrix.cc
@@ -60,13 +59,17 @@ add_executable(
   src/esolid/src/pt_surf_assoc.cc
   src/esolid/src/root1.cc
   src/esolid/src/timer.cc
+)
 
 
+add_executable(
+  net-esolid
+  src/net-esolid.cc
 
   ${ProtoHeaders}
   ${ProtoSources}
 )
 
 
-target_link_libraries (net-esolid uv gmp clapack cblas)
+target_link_libraries (net-esolid uv esolid gmp clapack cblas)
 
