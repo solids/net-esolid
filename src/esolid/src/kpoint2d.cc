@@ -337,19 +337,19 @@ K_POINT2D :: K_POINT2D(const K_POINT2D& x)
 {
   type = x.type;
   
-  if (PtRs = x.PtRs)
+  if ((PtRs = x.PtRs))
     PtRs->ref_count++;
   
-  if (PtRt = x.PtRt)
+  if ((PtRt = x.PtRt))
     PtRt->ref_count++;
   
   PtBs = x.PtBs;
   PtBt = x.PtBt;
   
-  if (poly1 = x.poly1)
+  if ((poly1 = x.poly1))
     poly1->ref_count++;
   
-  if (poly2 = x.poly2)
+  if ((poly2 = x.poly2))
     poly2->ref_count++;
   
 //  next         = x.next;
@@ -390,19 +390,19 @@ K_POINT2D& K_POINT2D :: operator =(const K_POINT2D& x)
     
     type = x.type;
     
-    if (PtRs = x.PtRs)
+    if ((PtRs = x.PtRs))
       PtRs->ref_count++;
     
-    if (PtRt = x.PtRt)
+    if ((PtRt = x.PtRt))
       PtRt->ref_count++;
     
     PtBs = x.PtBs;
     PtBt = x.PtBt;
     
-    if (poly1 = x.poly1)
+    if ((poly1 = x.poly1))
       poly1->ref_count++;
     
-    if (poly2 = x.poly2)
+    if ((poly2 = x.poly2))
       poly2->ref_count++;
     
 //    next         = x.next;
@@ -754,13 +754,13 @@ int K_POINT2D :: reduce_s(const unsigned long num_bits) const
       reduced = 1;
       
       if (l > PtRs->low)
-        if (sgn_l = PtRs->poly->sgn_at(l))
-          if (PtRs->sig_low < 0 && sgn_l < 0
+        if ((sgn_l = PtRs->poly->sgn_at(l)))
+          if ((PtRs->sig_low < 0) && (sgn_l < 0)
               ||
-              PtRs->sig_low > 0 && sgn_l > 0
+              (PtRs->sig_low > 0) && (sgn_l > 0)
               ||
-              PtRs->sig_low == 0 &&
-              PtRs->poly->num_Sturm_seq_perm(l) == PtRs->num_perm_low)
+              (PtRs->sig_low == 0) &&
+              (PtRs->poly->num_Sturm_seq_perm(l) == PtRs->num_perm_low))
           //  Keep reduced == 1.
             PtRs->low = l;
           else
@@ -784,7 +784,7 @@ int K_POINT2D :: reduce_s(const unsigned long num_bits) const
       //  since better high or low might be obtained.
       
       if (PtRs && h < PtRs->high)
-        if (sgn_h = PtRs->poly->sgn_at(h))
+        if ((sgn_h = PtRs->poly->sgn_at(h)))
           if (PtRs->sig_low < 0 && sgn_h > 0
               ||
               PtRs->sig_low > 0 && sgn_h < 0
@@ -860,7 +860,7 @@ int K_POINT2D :: reduce_t(const unsigned long num_bits) const
       reduced = 1;
       
       if (l > PtRt->low)
-        if (sgn_l = PtRt->poly->sgn_at(l))
+        if ((sgn_l = PtRt->poly->sgn_at(l)))
           if (PtRt->sig_low < 0 && sgn_l < 0
               ||
               PtRt->sig_low > 0 && sgn_l > 0
@@ -890,7 +890,7 @@ int K_POINT2D :: reduce_t(const unsigned long num_bits) const
       //  since better high or low might be obtained.
       
       if (PtRt && h < PtRt->high)
-        if (sgn_h = PtRt->poly->sgn_at(h))
+        if ((sgn_h = PtRt->poly->sgn_at(h)))
           if (PtRt->sig_low < 0 && sgn_h > 0
               ||
               PtRt->sig_low > 0 && sgn_h < 0
@@ -3996,13 +3996,13 @@ int K_POINT2D :: overlap(const K_POINT2D& x) const
   else if (type == 3 && x.type == 3)
     if ((PtBs == x.PtBs)
         &&
-        (PtRt->low >= x.PtRt->low && PtRt->low < x.PtRt->high
+        (((PtRt->low >= x.PtRt->low) && (PtRt->low < x.PtRt->high))
          ||
-         PtRt->high > x.PtRt->low && PtRt->high <= x.PtRt->high
+         ((PtRt->high > x.PtRt->low) && (PtRt->high <= x.PtRt->high))
          ||
-         PtRt->low <= x.PtRt->low && PtRt->high > x.PtRt->low
+         ((PtRt->low <= x.PtRt->low) && (PtRt->high > x.PtRt->low))
          ||
-         PtRt->low < x.PtRt->high && PtRt->high >= x.PtRt->high))
+         ((PtRt->low < x.PtRt->high) && (PtRt->high >= x.PtRt->high)) ))
       o = 1;
     else
       o = 0;
@@ -4552,3 +4552,25 @@ int K_POINT2D :: get_fp_approx(double*& a) const
   return 0;
 }
 
+int K_POINT2D :: get_exact() const
+{
+  if (type == 1 || type == 2) {
+    //a[0] = ((PtRs->low + PtRs->high) / 2).as_string();
+    cout << "a[0]:" << ((PtRs->low + PtRs->high) / 2).as_string() << endl;
+  }
+  else { //  if (type == 3 || type == 4)
+    //a[0] = PtBs.as_string();
+    cout << "a[0]:" << PtBs.as_string() << endl;
+  }
+  
+  if (type == 1 || type == 3) {
+    //a[1] = ((PtRt->low + PtRt->high) / 2).as_string();
+    cout << "a[1]:" << ((PtRt->low + PtRt->high) / 2).as_string() << endl;
+  }
+  else { //  if (type == 2 || type == 4)
+    //a[1] = PtBt.as_string();
+    cout << "a[1]:" << PtBt.as_string() << endl;
+  }
+  
+  return 0;
+}

@@ -463,6 +463,7 @@ public:
   friend unsigned long gen_partitions(K_PATCH* const, K_PARTITION**&);
   
   int get_fp_approx(double*&) const;
+  int get_exact() const;
 };
 
 #endif

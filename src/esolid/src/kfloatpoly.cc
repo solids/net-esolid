@@ -126,7 +126,7 @@ ostream& K_FLOATPOLY :: output(ostream& o) const
   
   for (i = 0; i < num_coeffs; i++)
 //    if (coeffs[i] != 0.0)
-      if (p = index_to_powers(i))
+      if ((p = index_to_powers(i)))
       {
         o << coeffs[i] << " X^(";
         

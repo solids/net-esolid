@@ -338,7 +338,7 @@ int K_POINT1D :: reduce(const unsigned long num_bits) const
       //  since better high or low might be obtained.
       
       if (PtR && h < PtR->high)
-        if (sgn_h = PtR->poly->sgn_at(h))
+        if ((sgn_h = PtR->poly->sgn_at(h)))
           if (((PtR->sig_low < 0) && (sgn_h > 0))
               ||
               ((PtR->sig_low > 0) && (sgn_h < 0))
@@ -466,7 +466,7 @@ K_POINT1D K_POINT1D :: add(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtR->low + x.PtR->low, PtR->high + x.PtR->high);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else if (type == 1 && x.type == 2)
@@ -485,7 +485,7 @@ K_POINT1D K_POINT1D :: add(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtR->low + x.PtB, PtR->high + x.PtB);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else if (type == 2 && x.type == 1)
@@ -504,7 +504,7 @@ K_POINT1D K_POINT1D :: add(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtB + x.PtR->low, PtB + x.PtR->high);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else  //  if (type == 2 && x.type == 2)
@@ -572,7 +572,7 @@ K_POINT1D K_POINT1D :: sub(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtR->low - x.PtR->high, PtR->high - x.PtR->low);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else if (type == 1 && x.type == 2)
@@ -591,7 +591,7 @@ K_POINT1D K_POINT1D :: sub(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtR->low - x.PtB, PtR->high - x.PtB);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else if (type == 2 && x.type == 1)
@@ -610,7 +610,7 @@ K_POINT1D K_POINT1D :: sub(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, x.PtR->low - PtB, x.PtR->high - PtB);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else  //  if (type == 2 && x.type == 2)
@@ -717,7 +717,7 @@ K_POINT1D K_POINT1D :: mul(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, ly, hy);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else if (type == 1 && x.type == 2)
@@ -758,7 +758,7 @@ K_POINT1D K_POINT1D :: mul(const K_POINT1D& x) const
       y.PtR = new ROOT1(Y, ly, hy);
       y.PtR->ref_count++;
       
-      if (y.poly = y.PtR->poly)
+      if ((y.poly = y.PtR->poly))
         y.poly->ref_count++;
     }
     else  //  if (x.PtB == 0)
@@ -809,7 +809,7 @@ K_POINT1D K_POINT1D :: mul(const K_POINT1D& x) const
       y.PtR = new ROOT1(Y, ly, hy);
       y.PtR->ref_count++;
       
-      if (y.poly = y.PtR->poly)
+      if ((y.poly = y.PtR->poly))
         y.poly->ref_count++;
     }
     else  //  if (PtB == 0)
@@ -931,7 +931,7 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, ly, hy);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else if (type == 1 && x.type == 2)
@@ -971,7 +971,7 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, ly, hy);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else if (type == 2 && x.type == 1)
@@ -1011,7 +1011,7 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, ly, hy);
     y.PtR->ref_count++;
     
-    if (y.poly = y.PtR->poly)
+    if ((y.poly = y.PtR->poly))
       y.poly->ref_count++;
   }
   else  //  if (type == 2 && x.type == 2)

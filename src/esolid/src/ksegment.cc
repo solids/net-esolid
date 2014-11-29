@@ -68,10 +68,10 @@ K_SEGMENT& K_SEGMENT :: operator =(const K_SEGMENT& s)
     if (end && !--end->ref_count)
       delete end;
     
-    if (start = s.start)
+    if ((start = s.start))
       start->ref_count++;
     
-    if (end = s.end)
+    if ((end = s.end))
       end->ref_count++;
   }
   
@@ -112,10 +112,10 @@ K_SEGMENT K_SEGMENT :: reverse() const
 {
   K_SEGMENT s;
   
-  if (s.start = end)
+  if ((s.start = end))
     s.start->ref_count++;
   
-  if (s.end = start)
+  if ((s.end = start))
     s.end->ref_count++;
   
   return s;
@@ -273,7 +273,7 @@ int K_SEGMENT :: contains(K_POINT2D& x)
         {
           K_BOXCO2* ibox;
           
-          if (ibox = inner_box())
+          if ((ibox = inner_box()))
           {
             x.cut_s(ibox->low[0]);
             x.cut_s(ibox->high[0]);
@@ -302,7 +302,7 @@ int K_SEGMENT :: contains(K_POINT2D& x)
             start->shrink(shrink_step, shrink_step);
             end->shrink(shrink_step, shrink_step);
             
-            if (ibox = inner_box())
+            if ((ibox = inner_box()))
             {
               obox = outer_box();
               x.cut_s(ibox->low[0]);

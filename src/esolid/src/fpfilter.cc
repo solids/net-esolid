@@ -186,7 +186,7 @@ int horner_with_err(const double* const poly,
   //       the absolute values of the coeffients of poly.
 
   if (f)
-    if (f = finite(abs_in_val = fabs(in_val)))
+    if ((f = finite(abs_in_val = fabs(in_val))))
       f = finite(out_err = fabs(poly[0]));
 
   for (i = 1; f && i <= deg; i++)

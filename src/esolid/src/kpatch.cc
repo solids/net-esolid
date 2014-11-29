@@ -161,10 +161,10 @@ K_PATCH :: K_PATCH(const K_PATCH& p)
       trim_curves[i] = p.trim_curves[i];
       trim_curves[i]->ref_count++;
       
-      if (adj_surfs[i] = p.adj_surfs[i])
+      if ((adj_surfs[i] = p.adj_surfs[i]))
         adj_surfs[i]->ref_count++;
       
-      if (adj_patches[i] = p.adj_patches[i])
+      if ((adj_patches[i] = p.adj_patches[i]))
         adj_patches[i]->ref_count++;
     }
   }
@@ -186,10 +186,10 @@ K_PATCH :: K_PATCH(const K_PATCH& p)
       int_curves[i] = p.int_curves[i];
       int_curves[i]->ref_count++;
       
-      if (adj_int_surfs[i] = p.adj_int_surfs[i])
+      if ((adj_int_surfs[i] = p.adj_int_surfs[i]))
         adj_int_surfs[i]->ref_count++;
       
-      if (adj_int_patches[i] = p.adj_int_patches[i])
+      if ((adj_int_patches[i] = p.adj_int_patches[i]))
         adj_int_patches[i]->ref_count++;
     }
   }
@@ -318,10 +318,10 @@ K_PATCH& K_PATCH :: operator =(const K_PATCH& p)
         trim_curves[i] = p.trim_curves[i];
         trim_curves[i]->ref_count++;
         
-        if (adj_surfs[i] = p.adj_surfs[i])
+        if ((adj_surfs[i] = p.adj_surfs[i]))
           adj_surfs[i]->ref_count++;
         
-        if (adj_patches[i] = p.adj_patches[i])
+        if ((adj_patches[i] = p.adj_patches[i]))
           adj_patches[i]->ref_count++;
       }
     }
@@ -343,10 +343,10 @@ K_PATCH& K_PATCH :: operator =(const K_PATCH& p)
         int_curves[i] = p.int_curves[i];
         int_curves[i]->ref_count++;
         
-        if (adj_int_surfs[i] = p.adj_int_surfs[i])
+        if ((adj_int_surfs[i] = p.adj_int_surfs[i]))
           adj_int_surfs[i]->ref_count++;
         
-        if (adj_int_patches[i] = p.adj_int_patches[i])
+        if ((adj_int_patches[i] = p.adj_int_patches[i]))
           adj_int_patches[i]->ref_count++;
       }
     }
@@ -365,7 +365,7 @@ K_PATCH& K_PATCH :: operator =(const K_PATCH& p)
       
       for (i = 0; i < num_merged; i++)
       {
-        if (len_ic[i] = p.len_ic[i])
+        if ((len_ic[i] = p.len_ic[i]))
           ic[i] = new K_CURVE* [len_ic[i]];
         else
           ic[i] = 0;
@@ -4391,7 +4391,7 @@ unsigned long K_PATCH :: split_loops(K_PATCH**& new_patches)
         sub_patches[num_sub_patches]->adj_surfs[i]   = this_adj_surfs[i];
         sub_patches[num_sub_patches]->adj_surfs[i]->ref_count++;
         
-        if (sub_patches[num_sub_patches]->adj_patches[i] = this_adj_patches[i])
+        if ((sub_patches[num_sub_patches]->adj_patches[i] = this_adj_patches[i]))
           sub_patches[num_sub_patches]->adj_patches[i]->ref_count++;
       }
       
@@ -4991,8 +4991,8 @@ K_POINT2D K_PATCH :: get_pt_in() const
   
   for (i = 0; i < num_trim_curves; i++)
   {
-    if (num_int_pts_proto =
-        trim_curves[i]->find_intersections(poly_cut, int_pts_proto, 1) > 0)
+    if ((num_int_pts_proto =
+        trim_curves[i]->find_intersections(poly_cut, int_pts_proto, 1) > 0))
     {
       for (j = 0; j < num_int_pts_proto; j++)
       {

@@ -50,7 +50,7 @@ K_CURVE :: K_CURVE(K_RATPOLY* const P,
 {
   unsigned long i;
   
-  if (poly = P)
+  if ((poly = P))
     poly->ref_count++;
   
   if ((num_segments = n) > 0)
@@ -77,7 +77,7 @@ K_CURVE :: K_CURVE(const K_CURVE& c,
 {
   unsigned long i;
   
-  if (poly = c.poly)
+  if ((poly = c.poly))
     poly->ref_count++;
   
   if (s <= e)
@@ -121,7 +121,7 @@ K_CURVE :: K_CURVE(const K_CURVE& c)
 {
   unsigned long i;
   
-  if (poly = c.poly)
+  if ((poly = c.poly))
     poly->ref_count++;
   
   if ((num_segments = c.num_segments) > 0)
@@ -169,7 +169,7 @@ K_CURVE& K_CURVE :: operator =(const K_CURVE& c)
       curve_in_other_dom->dir_in_other_dom   = 0;
     }
     
-    if (poly = c.poly)
+    if ((poly = c.poly))
       poly->ref_count++;
     
     if ((num_segments = c.num_segments) > 0)
@@ -342,7 +342,7 @@ int K_CURVE :: sort_pts(K_POINT2D** const pts,
   for (i = 0; i < num_pts; i++)
   {
     for (c = 0, j = 0; !c && j < num_segments; j++)
-      if (c = segments[j]->contains(*pts[i]))
+      if ((c = segments[j]->contains(*pts[i])))
       {
         pts_on_seg[j][num_pts_on_seg[j]] = pts[i];
         pts_on_seg[j][num_pts_on_seg[j]]->ref_count++;

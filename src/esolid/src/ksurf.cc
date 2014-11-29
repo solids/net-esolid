@@ -20,7 +20,7 @@ K_SURF :: K_SURF(K_RATPOLY* const impl,
                  K_RATPOLY* const x, K_RATPOLY* const y, K_RATPOLY* const z,
                  K_RATPOLY* const w)
 {
-  if (Impl = impl)
+  if ((Impl = impl))
   {
     Impl->ref_count++;
     Impl_ok = 1;
@@ -69,7 +69,7 @@ K_SURF :: K_SURF(const K_RATPOLY& impl)
 
 K_SURF :: K_SURF(const K_SURF& s)
 {
-  if (Impl_ok = s.Impl_ok)
+  if ((Impl_ok = s.Impl_ok))
   {
     Impl = s.Impl;
     Impl->ref_count++;
@@ -77,7 +77,7 @@ K_SURF :: K_SURF(const K_SURF& s)
   else
     Impl = 0;
   
-  if (mon_ok = s.mon_ok)
+  if ((mon_ok = s.mon_ok))
   {
     X = s.X;
     X->ref_count++;
@@ -113,7 +113,7 @@ K_SURF& K_SURF :: operator =(const K_SURF& s)
     if (W && !--W->ref_count)
       delete W;
     
-    if (Impl_ok = s.Impl_ok)
+    if ((Impl_ok = s.Impl_ok))
     {
       Impl = s.Impl;
       Impl->ref_count++;
@@ -121,7 +121,7 @@ K_SURF& K_SURF :: operator =(const K_SURF& s)
     else
       Impl = 0;
     
-    if (mon_ok = s.mon_ok)
+    if ((mon_ok = s.mon_ok))
     {
       X = s.X;
       X->ref_count++;
@@ -1517,14 +1517,14 @@ int K_SURF :: Bezier_output(ostream& out_fs,
       p[1] = j;
       
       out_fs <<
-        // X_Bern.get_coeff(p).as_double() << "  " <<
-        // Y_Bern.get_coeff(p).as_double() << "  " <<
-        // Z_Bern.get_coeff(p).as_double() << "  " <<
-        // W_Bern.get_coeff(p).as_double() << "  " <<
-        X_Bern.get_coeff(p).as_string() << "  " <<
-        Y_Bern.get_coeff(p).as_string() << "  " <<
-        Z_Bern.get_coeff(p).as_string() << "  " <<
-        W_Bern.get_coeff(p).as_string() << "  " <<
+        X_Bern.get_coeff(p).as_double() << "  " <<
+        Y_Bern.get_coeff(p).as_double() << "  " <<
+        Z_Bern.get_coeff(p).as_double() << "  " <<
+        W_Bern.get_coeff(p).as_double() << "  " <<
+        // X_Bern.get_coeff(p).as_string() << "  " <<
+        // Y_Bern.get_coeff(p).as_string() << "  " <<
+        // Z_Bern.get_coeff(p).as_string() << "  " <<
+        // W_Bern.get_coeff(p).as_string() << "  " <<
         endl << flush;
     }
   }
