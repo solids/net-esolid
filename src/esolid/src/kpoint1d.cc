@@ -310,21 +310,23 @@ int K_POINT1D :: reduce(const unsigned long num_bits) const
       
       reduced = 1;
       
-      if (l > PtR->low)
-        if ((sgn_l = PtR->poly->sgn_at(l)))
+      if (l > PtR->low) {
+        if ((sgn_l = PtR->poly->sgn_at(l))) {
           if (((PtR->sig_low < 0) && (sgn_l < 0))
               ||
               ((PtR->sig_low > 0) && (sgn_l > 0))
               ||
-              (PtR->sig_low == 0) &&
-              (PtR->poly->num_Sturm_seq_perm(l) == PtR->num_perm_low))
+              ((PtR->sig_low == 0) &&
+              (PtR->poly->num_Sturm_seq_perm(l) == PtR->num_perm_low))) {
           //  Keep reduced == 1.
             PtR->low = l;
-          else
+          }
+          else {
             reduced = 0;
-        else  //  if l is a root of PtR->poly
-        //  Keep reduced == 1.
-        {
+          }
+        }
+        else { //  if l is a root of PtR->poly
+          //  Keep reduced == 1.
           type = 2;
           
           if (!--PtR->ref_count)
@@ -333,22 +335,26 @@ int K_POINT1D :: reduce(const unsigned long num_bits) const
           PtR = 0;
           PtB = l;
         }
+      }
       
       //  Do the following if PtR != 0 (and even if reduced == 0)
       //  since better high or low might be obtained.
       
-      if (PtR && h < PtR->high)
-        if ((sgn_h = PtR->poly->sgn_at(h)))
+      if (PtR && h < PtR->high) {
+        if ((sgn_h = PtR->poly->sgn_at(h))) {
           if (((PtR->sig_low < 0) && (sgn_h > 0))
               ||
               ((PtR->sig_low > 0) && (sgn_h < 0))
               ||
-              (PtR->sig_low == 0) &&
-              (PtR->poly->num_Sturm_seq_perm(h) == PtR->num_perm_high))
+              ((PtR->sig_low == 0) &&
+              (PtR->poly->num_Sturm_seq_perm(h) == PtR->num_perm_high))) {
           //  Keep reduced as it is.
             PtR->high = h;
-          else
+          }
+          else {
             reduced = 0;
+          }
+        }
         else  //  if h is a root of PtR->poly
         {
           type = 2;
@@ -361,12 +367,15 @@ int K_POINT1D :: reduce(const unsigned long num_bits) const
           
           reduced = 1;
         }
+      }
     }
-    else  //  if (h >= l) > high (>= low) or (l <=) h < low (<= high)
+    else { //  if (h >= l) > high (>= low) or (l <=) h < low (<= high)
       reduced = 0;
+    }
   }
-  else  //  if (type == 2)
+  else { //  if (type == 2)
     reduced = 1;
+  }
   
   return reduced;
 }
@@ -379,28 +388,27 @@ int K_POINT1D :: contract(const bigrational& tol) const
   assert(tol > 0);
   assert(type);
   
-  if (type == 1 && PtR->high - PtR->low > tol)
-  {
-    if (PtR->ok_float)
-    {
+  if (type == 1 && PtR->high - PtR->low > tol) {
+    if (PtR->ok_float) {
       double  d_tol;
       long    num_bits;
       
       d_tol    = tol.as_double();
       num_bits = 0;
       
-      while (d_tol < 1.0 && num_bits < MAX_NUM_GOOD_FP_BITS)
-      {
+      while (d_tol < 1.0 && num_bits < MAX_NUM_GOOD_FP_BITS) {
         d_tol *= 2.0;
         num_bits++;
       }
       
-      while (num_bits > 0 && !reduce(num_bits))
+      while (num_bits > 0 && !reduce(num_bits)) {
         num_bits -= 3;
+      }
     }
     
-    while (type == 1 && PtR->high - PtR->low > tol)
+    while (type == 1 && PtR->high - PtR->low > tol) {
       halve();
+    }
   }
   
   return 0;
@@ -414,8 +422,9 @@ int K_POINT1D :: shrink(const bigrational& fac) const
 {
   assert(type);
   
-  if (type == 1)
+  if (type == 1) {
     contract(fac * (PtR->high - PtR->low));
+  }
   
   return 0;
 }
@@ -430,8 +439,7 @@ K_POINT1D K_POINT1D :: add(const K_POINT1D& x) const
   
   K_POINT1D y;
   
-  if (type == 1 && x.type == 1)
-  {
+  if (type == 1 && x.type == 1) {
     y.type = 1;
     
     long d[2];
@@ -466,11 +474,11 @@ K_POINT1D K_POINT1D :: add(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtR->low + x.PtR->low, PtR->high + x.PtR->high);
     y.PtR->ref_count++;
     
-    if ((y.poly = y.PtR->poly))
+    if ((y.poly = y.PtR->poly)) {
       y.poly->ref_count++;
+    }
   }
-  else if (type == 1 && x.type == 2)
-  {
+  else if (type == 1 && x.type == 2) {
     y.type = 1;
     
     K_RATPOLY T = poly->add_var(0);
@@ -485,11 +493,11 @@ K_POINT1D K_POINT1D :: add(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtR->low + x.PtB, PtR->high + x.PtB);
     y.PtR->ref_count++;
     
-    if ((y.poly = y.PtR->poly))
+    if ((y.poly = y.PtR->poly)) {
       y.poly->ref_count++;
+    }
   }
-  else if (type == 2 && x.type == 1)
-  {
+  else if (type == 2 && x.type == 1) {
     y.type = 1;
     
     K_RATPOLY T = K_RATPOLY(1, 0, PtB);
@@ -504,11 +512,11 @@ K_POINT1D K_POINT1D :: add(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, PtB + x.PtR->low, PtB + x.PtR->high);
     y.PtR->ref_count++;
     
-    if ((y.poly = y.PtR->poly))
+    if ((y.poly = y.PtR->poly)) {
       y.poly->ref_count++;
+    }
   }
-  else  //  if (type == 2 && x.type == 2)
-  {
+  else { //  if (type == 2 && x.type == 2)
     y.type = 2;
     
     y.PtR = 0;
@@ -721,8 +729,7 @@ K_POINT1D K_POINT1D :: mul(const K_POINT1D& x) const
       y.poly->ref_count++;
   }
   else if (type == 1 && x.type == 2)
-    if (sgn(x.PtB))
-    {
+    if (sgn(x.PtB)) {
       y.type = 1;
       
       long        dx[1];
@@ -744,8 +751,7 @@ K_POINT1D K_POINT1D :: mul(const K_POINT1D& x) const
       
       assert(PtR->low * PtR->high >= 0);
       
-      if (x.PtB > 0)
-      {
+      if (x.PtB > 0) {
         ly = PtR->low  * x.PtB;
         hy = PtR->high * x.PtB;
       }
@@ -758,8 +764,9 @@ K_POINT1D K_POINT1D :: mul(const K_POINT1D& x) const
       y.PtR = new ROOT1(Y, ly, hy);
       y.PtR->ref_count++;
       
-      if ((y.poly = y.PtR->poly))
+      if ((y.poly = y.PtR->poly)) {
         y.poly->ref_count++;
+      }
     }
     else  //  if (x.PtB == 0)
     {
@@ -809,8 +816,9 @@ K_POINT1D K_POINT1D :: mul(const K_POINT1D& x) const
       y.PtR = new ROOT1(Y, ly, hy);
       y.PtR->ref_count++;
       
-      if ((y.poly = y.PtR->poly))
+      if ((y.poly = y.PtR->poly)) {
         y.poly->ref_count++;
+      }
     }
     else  //  if (PtB == 0)
     {
@@ -856,13 +864,13 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
   
   assert(x.type == 1 || x.type == 2 && sgn(x.PtB));
   
-  while (x.type == 1 && (!sgn(x.PtR->low) || !sgn(x.PtR->high)))
+  while (x.type == 1 && (!sgn(x.PtR->low) || !sgn(x.PtR->high))) {
     x.shrink(shrink_step);
+  }
   
   K_POINT1D y;
   
-  if (type == 1 && x.type == 1)
-  {
+  if (type == 1 && x.type == 1) {
     y.type = 1;
     
     long          d[2];
@@ -905,37 +913,35 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     assert(PtR->low * PtR->high >= 0);
     assert(x.PtR->low * x.PtR->high >= 0);
     
-    if (PtR->high > 0)
-      if (x.PtR->high > 0)  //  if *this > 0 && x > 0
-      {
+    if (PtR->high > 0) {
+      if (x.PtR->high > 0) { //  if *this > 0 && x > 0
         ly = PtR->low  / x.PtR->high;
         hy = PtR->high / x.PtR->low;
       }
-      else  //  if *this > 0 && x < 0
-      {
+      else { //  if *this > 0 && x < 0
         ly = PtR->high / x.PtR->high;
         hy = PtR->low  / x.PtR->low;
       }
-    else  //  if *this <= 0 && x > 0
-      if (x.PtR->high > 0)
-      {
+    }
+    else { //  if *this <= 0 && x > 0
+      if (x.PtR->high > 0) {
         ly = PtR->low  / x.PtR->low;
         hy = PtR->high / x.PtR->high;
       }
-      else  //  if *this <= 0 && x < 0
-      {
+      else { //  if *this <= 0 && x < 0
         ly = PtR->high / x.PtR->low;
         hy = PtR->low  / x.PtR->high;
       }
+    }
     
     y.PtR = new ROOT1(Y, ly, hy);
     y.PtR->ref_count++;
     
-    if ((y.poly = y.PtR->poly))
+    if ((y.poly = y.PtR->poly)) {
       y.poly->ref_count++;
+    }
   }
-  else if (type == 1 && x.type == 2)
-  {
+  else if (type == 1 && x.type == 2) {
     y.type = 1;
     
     long        dx[1];
@@ -957,13 +963,11 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     
     assert(PtR->low * PtR->high >= 0);
     
-    if (x.PtB > 0)
-    {
+    if (x.PtB > 0) {
       ly = PtR->low  / x.PtB;
       hy = PtR->high / x.PtB;
     }
-    else  //  if (x.PtB < 0)
-    {
+    else { //  if (x.PtB < 0)
       ly = PtR->high / x.PtB;
       hy = PtR->low  / x.PtB;
     }
@@ -971,8 +975,9 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, ly, hy);
     y.PtR->ref_count++;
     
-    if ((y.poly = y.PtR->poly))
+    if ((y.poly = y.PtR->poly)) {
       y.poly->ref_count++;
+    }
   }
   else if (type == 2 && x.type == 1)
   {
@@ -997,13 +1002,11 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     
     assert(x.PtR->low * x.PtR->high >= 0);
     
-    if (PtB > 0)
-    {
+    if (PtB > 0) {
       ly = x.PtR->low  / PtB;
       hy = x.PtR->high / PtB;
     }
-    else  //  if (PtB < 0)
-    {
+    else { //  if (PtB < 0)
       ly = x.PtR->high / PtB;
       hy = x.PtR->low  / PtB;
     }
@@ -1011,11 +1014,11 @@ K_POINT1D K_POINT1D :: div(const K_POINT1D& x) const
     y.PtR = new ROOT1(Y, ly, hy);
     y.PtR->ref_count++;
     
-    if ((y.poly = y.PtR->poly))
+    if ((y.poly = y.PtR->poly)) {
       y.poly->ref_count++;
+    }
   }
-  else  //  if (type == 2 && x.type == 2)
-  {
+  else { // if (type == 2 && x.type == 2)
     y.type = 2;
     
     y.PtR = 0;
@@ -1045,62 +1048,73 @@ int K_POINT1D :: compare(const K_POINT1D& x) const
   
   int c;
   
-  if (type == 2)
-    if (x.type == 2)
-      if (PtB > x.PtB)
+  if (type == 2) {
+    if (x.type == 2) {
+      if (PtB > x.PtB) {
         c = 1;
-      else if (PtB < x.PtB)
+      }
+      else if (PtB < x.PtB) {
         c = - 1;
-      else  //  if (PtB == x.PtB)
+      }
+      else { //  if (PtB == x.PtB)
         c = 0;
-    else  //  if (x.type == 1)
-      if (PtB >= x.PtR->high)
+      }
+    }
+    else { //  if (x.type == 1)
+      if (PtB >= x.PtR->high) {
         c = 1;
-      else if (PtB <= x.PtR->low)
+      }
+      else if (PtB <= x.PtR->low) {
         c = - 1;
+      }
       else  //  if (x.PtR->low < PtB < x.PtR->high)
       {
         x.cut(PtB);
         c = compare(x);
       }
-  else  //  if (type == 1)
-    if (x.type == 2)
-      if (PtR->low >= x.PtB)
+    }
+  }
+  else { //  if (type == 1)
+    if (x.type == 2) {
+      if (PtR->low >= x.PtB) {
         c = 1;
-      else if (PtR->high <= x.PtB)
+      }
+      else if (PtR->high <= x.PtB) {
         c = - 1;
-      else  //  if (PtR->low < x.PtB < PtR->high)
-      {
+      }
+      else { //  if (PtR->low < x.PtB < PtR->high)
         cut(x.PtB);
         c = compare(x);
       }
-    else  //  if (x.type == 1)
-      if (PtR->low > x.PtR->low && PtR->low < x.PtR->high)
-      {
+    }
+    else { //  if (x.type == 1)
+      if (PtR->low > x.PtR->low && PtR->low < x.PtR->high) {
         x.cut(PtR->low);
         c = compare(x);
       }
-      else if (PtR->high > x.PtR->low && PtR->high < x.PtR->high)
-      {
+      else if (PtR->high > x.PtR->low && PtR->high < x.PtR->high) {
         x.cut(PtR->high);
         c = compare(x);
       }
-      else if (PtR->low < x.PtR->low && PtR->high > x.PtR->low)
-      {
+      else if (PtR->low < x.PtR->low && PtR->high > x.PtR->low) {
         cut(x.PtR->low);
         c = compare(x);
       }
-      else if (PtR->low < x.PtR->high && PtR->high > x.PtR->high)
-      {
+      else if (PtR->low < x.PtR->high && PtR->high > x.PtR->high) {
         cut(x.PtR->high);
         c = compare(x);
       }
-      else if (PtR->low >= x.PtR->high)
+      else if (PtR->low >= x.PtR->high) {
         c = 1;
-      else if (PtR->high <= x.PtR->low)
+      }
+      else if (PtR->high <= x.PtR->low) {
         c = - 1;
-      else  //  if (PtR->low == x.PtR->low && PtR->high == x.PtR->high)
+      }
+      else { //  if (PtR->low == x.PtR->low && PtR->high == x.PtR->high)
         c = 0;
+      }
+    }
+  }
   
   return c;
 }
@@ -1116,23 +1130,29 @@ int K_POINT1D :: compare(const bigrational& b) const
   
   int c;
   
-  if (type == 2)
-    if (PtB > b)
+  if (type == 2) {
+    if (PtB > b) {
       c = 1;
-    else if (PtB < b)
+    }
+    else if (PtB < b) {
       c = - 1;
-    else  //  if (PtB == b)
+    }
+    else { //  if (PtB == b)
       c = 0;
-  else  //  if (type == 1)
-    if (PtR->low >= b)
+    }
+  }
+  else { //  if (type == 1)
+    if (PtR->low >= b) {
       c = 1;
-    else if (PtR->high <= b)
+    }
+    else if (PtR->high <= b) {
       c = - 1;
-    else  //  if (PtR->low < b < PtR->high)
-    {
+    }
+    else { //  if (PtR->low < b < PtR->high)
       cut(b);
       c = compare(b);
     }
+  }
   
   return c;
 }
@@ -1150,17 +1170,18 @@ int sort(K_POINT1D** const X, const unsigned long n)
   
   distinct = 1;
   
-  for (i = 1; i < n; i++)
-  {
+  for (i = 1; i < n; i++) {
     x = X[i];
     
-    for (j = i - 1; j >= 0 && (c = x->compare(*X[j])) < 0; j--)
+    for (j = i - 1; j >= 0 && (c = x->compare(*X[j])) < 0; j--) {
       X[j + 1] = X[j];
+    }
     
     X[j + 1] = x;
     
-    if (!c)
+    if (!c) {
       distinct = 0;
+    }
   }
   
   return distinct;
@@ -1193,20 +1214,17 @@ unsigned long get_pts(const bigrational& l, const bigrational& h,
   
   unsigned long num_pts;
   
-  if (!P.deg[0])
+  if (!P.deg[0]) {
   //  0.1.  when P is a constant polynomial
-  {
     pts     = 0;
     num_pts = 0;
   }
-  else if (l > h)
+  else if (l > h) {
   //  0.2.  when the interval [l, h] is not well-defined
-  {
     pts     = 0;
     num_pts = 0;
   }
-  else
-  {
+  else {
     //  1.  See if 0 is a root of P.
     //      Obtain P1 by removing some power of s from P s.t.
     //        P1 has a non-zero constant term.
@@ -1229,11 +1247,12 @@ unsigned long get_pts(const bigrational& l, const bigrational& h,
     
     if (i < P.num_coeffs - 1
         &&
-        (sgn(l) < 0 && sgn(h) > 0
+        ((sgn(l) < 0 && sgn(h) > 0)
          ||
-         count_endpts && sgn(l) <= 0 && sgn(h) >= 0))
+         ((count_endpts && sgn(l)) <= 0 && sgn(h) >= 0))) {
     //  if 0 is a root of P in/on the interval [l, h]
       num_pts0 = 1;
+    }
     else
     //  if 0 is not a root of P or 0 is not in/on the interval [l. h]
       num_pts0 = 0;
@@ -1254,7 +1273,7 @@ unsigned long get_pts(const bigrational& l, const bigrational& h,
       b = - P1.coeffs[1] / P1.coeffs[0];
       //  P1.deg[0] == 1 => P1.coeffs[0] != 0
       
-      if (b > l && b < h || count_endpts && b >= l && b <= h)
+      if ((b > l && b < h) || (count_endpts && b >= l && b <= h))
       {
         pts1    = new K_POINT1D* [num_pts1 = 1];
         pts1[0] = new K_POINT1D(b, P1);
@@ -1417,34 +1436,48 @@ int K_POINT1D :: overlap(const K_POINT1D& x) const
   
   int o;
   
-  if (type == 2)
-    if (x.type == 2)
-      if (PtB == x.PtB)
+  if (type == 2) {
+    if (x.type == 2) {
+      if (PtB == x.PtB) {
         o = 1;
-      else  //  if (PtB != x.PtB)
+      }
+      else { //  if (PtB != x.PtB)
         o = 0;
-    else  //  if (x.type == 1)
-      if (PtB > x.PtR->low && PtB < x.PtR->high)
+      }
+    }
+    else { //  if (x.type == 1)
+      if (PtB > x.PtR->low && PtB < x.PtR->high) {
         o = 1;
-      else  //  if (PtB <= x.PtR->low || PtB >= x.PtR->high)
+      }
+      else { //  if (PtB <= x.PtR->low || PtB >= x.PtR->high)
         o = 0;
-  else  //  if (type == 1)
-    if (x.type == 2)
-      if (PtR->low < x.PtB && PtR->high > x.PtB)
+      }
+    }
+  }
+  else { //  if (type == 1)
+    if (x.type == 2) {
+      if (PtR->low < x.PtB && PtR->high > x.PtB) {
         o = 1;
-      else  //  if (PtR->low >= x.PtB || PtR->high <= x.PtB)
+      }
+      else { //  if (PtR->low >= x.PtB || PtR->high <= x.PtB)
         o = 0;
-    else  //  if (x.type == 1)
-      if (PtR->low >= x.PtR->low && PtR->low < x.PtR->high
+      }
+    }
+    else { //  if (x.type == 1)
+      if ((PtR->low >= x.PtR->low && PtR->low < x.PtR->high)
           ||
-          PtR->high > x.PtR->low && PtR->high <= x.PtR->high
+          (PtR->high > x.PtR->low && PtR->high <= x.PtR->high)
           ||
-          PtR->low <= x.PtR->low && PtR->high > x.PtR->low
+          (PtR->low <= x.PtR->low && PtR->high > x.PtR->low)
           ||
-          PtR->low < x.PtR->high && PtR->high >= x.PtR->high)
+          (PtR->low < x.PtR->high && PtR->high >= x.PtR->high)) {
         o = 1;
-      else  //  if (PtR->low > x.PtR->high || PtR->high < x.PtR->low)
+      }
+      else { //  if (PtR->low > x.PtR->high || PtR->high < x.PtR->low)
         o = 0;
+      }
+    }
+  }
   
   return o;
 }
@@ -1458,20 +1491,20 @@ int K_POINT1D :: separate(const K_POINT1D& x) const
   assert(type);
   assert(x.type);
   
-  if (type == 2 && x.type == 1)
+  if (type == 2 && x.type == 1) {
     x.cut(PtB);
-  else if (type == 1 && x.type == 2)
+  }
+  else if (type == 1 && x.type == 2) {
     cut(x.PtB);
-  else if (type == 1 && x.type == 1)
-  {
+  }
+  else if (type == 1 && x.type == 1) {
     cut(x.PtR->low);
     cut(x.PtR->high);
     x.cut(PtR->low);
     x.cut(PtR->high);
   }
   
-  while (overlap(x))
-  {
+  while (overlap(x)) {
     shrink(shrink_step);
     x.shrink(shrink_step);
     separate(x);
@@ -1490,8 +1523,7 @@ int K_POINT1D :: separate(const K_POINT1D& x) const
 
 unsigned long get_all_pts(const K_RATPOLY& P,
                           K_POINT1D**& pts,
-                          const bigrational tol)
-{
+                          const bigrational tol) {
   assert(P.get_num_vars() == 1);
   
   unsigned long num_int_pts;
@@ -1502,4 +1534,3 @@ unsigned long get_all_pts(const K_RATPOLY& P,
   
   return get_pts(l, h, P, pts, tol, 0);
 }
-
