@@ -38,8 +38,9 @@ K_POINT1D :: K_POINT1D(const ROOT1& r)
   PtR = new ROOT1(r);
   PtR->ref_count++;
   
-  if (poly = PtR->poly)
+  if ((poly = PtR->poly)) {
     poly->ref_count++;
+  }
   
   ref_count = 0;
 }
@@ -111,13 +112,15 @@ K_POINT1D :: K_POINT1D(const K_POINT1D& x)
 {
   type = x.type;
   
-  if (PtR = x.PtR)
+  if ((PtR = x.PtR)) {
     PtR->ref_count++;
+  }
   
   PtB = x.PtB;
   
-  if (poly = x.poly)
+  if ((poly = x.poly)) {
     poly->ref_count++;
+  }
   
   ref_count = 0;
 }
@@ -137,13 +140,15 @@ K_POINT1D& K_POINT1D :: operator =(const K_POINT1D& x)
     
     type = x.type;
     
-    if (PtR = x.PtR)
+    if ((PtR = x.PtR)) {
       PtR->ref_count++;
+    }
     
     PtB = x.PtB;
     
-    if (poly = x.poly)
+    if ((poly = x.poly)) {
       poly->ref_count++;
+    }
   }
   
   return *this;
@@ -215,19 +220,21 @@ int K_POINT1D :: cut(const bigrational& b) const
 {
   assert(type);
   
-  if (type == 1 && b > PtR->low && b < PtR->high)
-    if (!PtR->poly->sgn_at(b))
-    {
+  if (type == 1 && b > PtR->low && b < PtR->high) {
+    if (!PtR->poly->sgn_at(b)) {
       type = 2;
       
-      if (!--PtR->ref_count)
+      if (!--PtR->ref_count) {
         delete PtR;
+      }
       
       PtR = 0;
       PtB = b;
     }
-    else  //  if (PtR->poly->sgn_at(b))
+    else { //  if (PtR->poly->sgn_at(b))
       PtR->cut(b);
+    }
+  }
   
   return 0;
 }
@@ -241,8 +248,7 @@ int K_POINT1D :: halve() const
 {
   assert(type);
   
-  if (type == 1)
-  {
+  if (type == 1) {
     bigrational half;
     
     half = (PtR->low + PtR->high) / 2;
@@ -251,14 +257,16 @@ int K_POINT1D :: halve() const
     {
       type = 2;
       
-      if (!--PtR->ref_count)
+      if (!--PtR->ref_count) {
         delete PtR;
+      }
       
       PtR = 0;
       PtB = half;
     }
-    else  //  if (PtR->poly->sgn_at(half))
+    else { //  if (PtR->poly->sgn_at(half))
       PtR->cut(half);
+    }
   }
   
   return 0;
@@ -303,13 +311,13 @@ int K_POINT1D :: reduce(const unsigned long num_bits) const
       reduced = 1;
       
       if (l > PtR->low)
-        if (sgn_l = PtR->poly->sgn_at(l))
-          if (PtR->sig_low < 0 && sgn_l < 0
+        if ((sgn_l = PtR->poly->sgn_at(l)))
+          if (((PtR->sig_low < 0) && (sgn_l < 0))
               ||
-              PtR->sig_low > 0 && sgn_l > 0
+              ((PtR->sig_low > 0) && (sgn_l > 0))
               ||
-              PtR->sig_low == 0 &&
-              PtR->poly->num_Sturm_seq_perm(l) == PtR->num_perm_low)
+              (PtR->sig_low == 0) &&
+              (PtR->poly->num_Sturm_seq_perm(l) == PtR->num_perm_low))
           //  Keep reduced == 1.
             PtR->low = l;
           else
@@ -331,12 +339,12 @@ int K_POINT1D :: reduce(const unsigned long num_bits) const
       
       if (PtR && h < PtR->high)
         if (sgn_h = PtR->poly->sgn_at(h))
-          if (PtR->sig_low < 0 && sgn_h > 0
+          if (((PtR->sig_low < 0) && (sgn_h > 0))
               ||
-              PtR->sig_low > 0 && sgn_h < 0
+              ((PtR->sig_low > 0) && (sgn_h < 0))
               ||
-              PtR->sig_low == 0 &&
-              PtR->poly->num_Sturm_seq_perm(h) == PtR->num_perm_high)
+              (PtR->sig_low == 0) &&
+              (PtR->poly->num_Sturm_seq_perm(h) == PtR->num_perm_high))
           //  Keep reduced as it is.
             PtR->high = h;
           else
