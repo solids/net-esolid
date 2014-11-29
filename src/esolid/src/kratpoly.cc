@@ -1776,18 +1776,20 @@ K_RATPOLY K_RATPOLY :: subst_param_expr(const K_RATPOLY& X,
 //  I = K_RATPOLY(2, d);
   K_RATPOLY I(2, d);
 
-  for (i = 0, td = 0; i < num_coeffs; i++)
+  for (i = 0, td = 0; i < num_coeffs; i++) {
     if (sgn(coeffs[i]))
     {
       p = index_to_powers(i);
 
-      if ((t = p[0] + p[1] + p[2]) > td)
+      if ((t = p[0] + p[1] + p[2]) > td) {
         td = t;
+      }
 
       delete [] p;  //  num_vars == 3 => p != 0
     }
+  }
 
-  for (i = 0; i < num_coeffs; i++)
+  for (i = 0; i < num_coeffs; i++) {
     if (sgn(coeffs[i]))
     {
       S = K_RATPOLY(2, d);
@@ -1796,22 +1798,27 @@ K_RATPOLY K_RATPOLY :: subst_param_expr(const K_RATPOLY& X,
       p           = index_to_powers(i);
       dd          = td - p[0] - p[1] - p[2];
 
-      for (j = 0; j < p[0]; j++)
+      for (j = 0; j < p[0]; j++) {
         S = S * X;
+      }
 
-      for (j = 0; j < p[1]; j++)
+      for (j = 0; j < p[1]; j++) {
         S = S * Y;
+      }
 
-      for (j = 0; j < p[2]; j++)
+      for (j = 0; j < p[2]; j++) {
         S = S * Z;
+      }
 
-      for (j = 0; j < dd; j++)
+      for (j = 0; j < dd; j++) {
         S = S * W;
+      }
 
       I = I + S;
 
       delete [] p;  //  num_vars == 3 => p != 0
     }
+  }
 
   I.reduce_deg();
   I.reduce_num_coeffs();
@@ -1832,17 +1839,22 @@ K_FLOATPOLY K_RATPOLY :: as_FLOATPOLY() const
 
   b = 0;
 
-  for (i = 0; i < num_coeffs; i++)
-    if (abs(coeffs[i]) > b)
+  for (i = 0; i < num_coeffs; i++) {
+    if (abs(coeffs[i]) > b) {
       b = abs(coeffs[i]);
+    }
+  }
 
   c = new double [num_coeffs];
 
-  for (i = 0; i < num_coeffs; i++)
-    if (sgn(b))
+  for (i = 0; i < num_coeffs; i++) {
+    if (sgn(b)) {
       c[i] = (coeffs[i] / b).as_double();
-    else  //  if (!sgn(b))
+    }
+    else { //  if (!sgn(b))
       c[i] = 0.0;
+    }
+  }
 
 //  F = K_FLOATPOLY(num_vars, deg, c);
   K_FLOATPOLY F(num_vars, deg, c);

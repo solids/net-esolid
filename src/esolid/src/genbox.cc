@@ -639,10 +639,12 @@ int get_patch4(const bigrational_vector pts[4], K_PATCH*& patch)
   K_CURVE**          trim_curves;
   unsigned long      num_trim_curves;
   
-  if (is_plane = get_impl_plane_bilin(pts, impl))
+  if ((is_plane = get_impl_plane_bilin(pts, impl))) {
     get_param_plane(pts[0], pts[1], pts[3], X, Y, Z, W);
-  else  //  if (!is_plane)
+  }
+  else { //  if (!is_plane)
     get_param_bilin(pts, X, Y, Z, W);
+  }
   
   surf        = new K_SURF(impl, X, Y, Z, W);
   trim_curves = new K_CURVE* [num_trim_curves = 4];
